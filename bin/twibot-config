@@ -1,0 +1,47 @@
+#!/usr/bin/env python3.6
+import os
+
+config_folder = os.environ["HOME"] + os.sep + ".twibot"
+config_file = config_folder + os.sep + "secrets"
+
+
+def store_keys(data):
+    with open(config_file, "w") as f:
+        for k in data.keys():
+            f.write("{0}={1}".format(k, data[k]))
+    return 0
+
+
+def get_keys():
+    print("\n[*] Now the program will store your API keys...")
+    C_KEY = input("Consumer key: ")
+    C_SECRET = input("Consumer secret: ")
+    A_KEY = input("Access key: ")
+    A_SECRET = input("Access secret: ")
+    try:
+        store_keys({"C_KEY":C_KEY, "C_SECRET":C_SECRET, "A_KEY":A_KEY, "A_SECRET":A_SECRET})
+    except Exception as err:
+        print("[!] Error: {0}".format(err))
+    return 0
+
+
+def main():
+    if not os.path.exists(config_folder):
+        try:
+            os.mkdir(config_folder)
+            print("[*] Configuration folder created.")
+        except Exception as err:
+            print("[!] Error: {0}".format(err))
+
+    if not os.path.exists(config_file):
+        try:
+            os.system('touch {0}'.format(config_file))
+            print("[*] Configurtion file created.")
+
+        except Exception as err:
+            print("[!] Error: {0}".format(err))
+    return 0
+
+
+if __name__ == "__main__":
+    main()
